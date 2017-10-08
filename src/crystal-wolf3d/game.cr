@@ -11,7 +11,8 @@ module Crystal::Wolf3d
       at_exit { SDL.quit }
       window = SDL::Window.new("Wolf 3D", SCREEN_WIDTH, SCREEN_HEIGHT)
       renderer = SDL::Renderer.new(window)
-      raycaster = Raycaster.new
+      grid = Grid.new
+      raycaster = Raycaster.new(grid)
 
       player = Player.new(Vector2D.new(2.5, 2.5), Vector2D.new(1.0, 0.5), PLAYER_FIELD_OF_VIEW)
 
@@ -21,7 +22,7 @@ module Crystal::Wolf3d
         renderer.draw_color = SDL::Color[0, 0, 0, 0]
         renderer.clear
 
-        walls = raycaster.trace_walls(SCREEN_WIDTH, player, Grid::GRID)
+        walls = raycaster.trace_walls(SCREEN_WIDTH, player)
         walls.each { |wall| wall.draw(player.pos, renderer, SCREEN_HEIGHT) }
 
         renderer.present

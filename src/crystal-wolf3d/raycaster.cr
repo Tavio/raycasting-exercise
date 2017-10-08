@@ -1,18 +1,21 @@
 module Crystal::Wolf3d
   class Raycaster
-    def trace_walls(screen_width : Int32, player : Player, grid)
+    def initialize(@grid : Grid)
+    end
+
+    def trace_walls(screen_width : Int32, player : Player)
       walls = [] of Wall
       column = 0
       while column <= screen_width
         camera_x = 2 * column / screen_width.to_f - 1
         ray = player.look_dir + player.camera_plane * camera_x
-        walls << trace_wall(player, ray, column, grid)
+        walls << trace_wall(player, ray, column)
         column += 1
       end
       return walls
     end
 
-    private def trace_wall(player : Player, ray_dir : Vector2D, screen_x : Int32, grid)
+    private def trace_wall(player : Player, ray_dir : Vector2D, screen_x : Int32)
       curr_cell_x = player.pos.x.to_i
       curr_cell_y = player.pos.y.to_i
       x_distance_between_rows = ray_dir.y == 0 ? Float64::INFINITY : ray_dir.x / ray_dir.y
@@ -46,7 +49,7 @@ module Crystal::Wolf3d
           curr_cell_y += step_y
           side_hit = SideHit::Horizontal
         end
-        if grid[curr_cell_y][curr_cell_x] > 0
+        if @grid.wall_at?(curr_cell_x, curr_cell_y)
           return Wall.new(Vector2D.new(curr_cell_x.to_f, curr_cell_y.to_f), side_hit, step_x, step_y, ray_dir, screen_x)
         end
       end

@@ -23,5 +23,9 @@ module Crystal::Wolf3d
     def num_columns
       GRID[0].size
     end
+
+    def wall_at?(x : Int32, y : Int32)
+      return GRID[y][x] == 1
+    end
   end
 end
