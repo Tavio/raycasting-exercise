@@ -2,8 +2,8 @@ require "sdl"
 
 module Crystal::Wolf3d
   class Game
-    SCREEN_WIDTH         =  320
-    SCREEN_HEIGHT        =  240
+    SCREEN_WIDTH         =  640
+    SCREEN_HEIGHT        =  480
     PLAYER_FIELD_OF_VIEW = 0.66
 
     def initialize
