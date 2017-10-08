@@ -15,7 +15,7 @@ module Crystal::Wolf3d
 
       look_dir = Vector2D.new(1.0, 0.5).unit
       camera_plane = look_dir.perpendicular * CAMERA_PLANE_RATIO
-      player = Player.new(Vector2D.new(4.5, 6.5), look_dir)
+      player = Player.new(Vector2D.new(2.5, 2.5), look_dir)
 
       curr_time = Time.now.epoch_ms
 
