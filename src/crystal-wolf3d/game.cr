@@ -2,9 +2,9 @@ require "sdl"
 
 module Crystal::Wolf3d
   class Game
-    SCREEN_WIDTH       =  320
-    SCREEN_HEIGHT      =  240
-    CAMERA_PLANE_RATIO = 0.66
+    SCREEN_WIDTH         =  320
+    SCREEN_HEIGHT        =  240
+    PLAYER_FIELD_OF_VIEW = 0.66
 
     def initialize
       SDL.init(SDL::Init::VIDEO)
@@ -13,9 +13,7 @@ module Crystal::Wolf3d
       renderer = SDL::Renderer.new(window)
       raycaster = Raycaster.new
 
-      look_dir = Vector2D.new(1.0, 0.5).unit
-      camera_plane = look_dir.perpendicular * CAMERA_PLANE_RATIO
-      player = Player.new(Vector2D.new(2.5, 2.5), look_dir)
+      player = Player.new(Vector2D.new(2.5, 2.5), Vector2D.new(1.0, 0.5), PLAYER_FIELD_OF_VIEW)
 
       curr_time = Time.now.epoch_ms
 
@@ -23,7 +21,7 @@ module Crystal::Wolf3d
         renderer.draw_color = SDL::Color[0, 0, 0, 0]
         renderer.clear
 
-        walls = raycaster.trace_walls(SCREEN_WIDTH, player, look_dir, camera_plane, Grid::GRID)
+        walls = raycaster.trace_walls(SCREEN_WIDTH, player, Grid::GRID)
         walls.each { |wall| wall.draw(player.pos, renderer, SCREEN_HEIGHT) }
 
         renderer.present
@@ -40,15 +38,13 @@ module Crystal::Wolf3d
         when SDL::Event::Keyboard
           case event.sym
           when .right?
-            look_dir = look_dir.rotate(rotation_speed)
-            camera_plane = camera_plane.rotate(rotation_speed)
+            player.rotate_right(frame_time)
           when .left?
-            look_dir = look_dir.rotate(-rotation_speed)
-            camera_plane = camera_plane.rotate(-rotation_speed)
+            player.rotate_left(frame_time)
           when .up?
-            player.pos += look_dir * move_speed
+            player.move_forward(frame_time)
           when .down?
-            player.pos -= look_dir * move_speed
+            player.move_backward(frame_time)
           end if event.keydown?
         end
       end

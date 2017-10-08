@@ -1,11 +1,11 @@
 module Crystal::Wolf3d
   class Raycaster
-    def trace_walls(screen_width : Int32, player : Player, look_dir : Vector2D, camera_plane : Vector2D, grid)
+    def trace_walls(screen_width : Int32, player : Player, grid)
       walls = [] of Wall
       column = 0
       while column <= screen_width
         camera_x = 2 * column / screen_width.to_f - 1
-        ray = look_dir + camera_plane * camera_x
+        ray = player.look_dir + player.camera_plane * camera_x
         walls << trace_wall(player, ray, column, grid)
         column += 1
       end
