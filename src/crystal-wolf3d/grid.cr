@@ -24,8 +24,8 @@ module Crystal::Wolf3d
       GRID[0].size
     end
 
-    def wall_at?(x : Int32, y : Int32)
-      return GRID[y][x] == 1
+    def wall_at?(coord : Vector2D)
+      return GRID[coord.y.to_i][coord.x.to_i] == 1
     end
   end
 end

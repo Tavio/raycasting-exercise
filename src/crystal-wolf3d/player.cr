@@ -6,7 +6,7 @@ module Crystal::Wolf3d
     @look_dir : Vector2D
     @camera_plane : Vector2D
 
-    def initialize(@pos : Vector2D, look_dir : Vector2D, field_of_view : Float64)
+    def initialize(@pos : Vector2D, @grid : Grid, look_dir : Vector2D, field_of_view : Float64)
       @look_dir = look_dir.unit
       @camera_plane = @look_dir.perpendicular * field_of_view
     end
@@ -41,12 +41,12 @@ module Crystal::Wolf3d
 
     def move_forward(frame_time)
       distance = frame_time * MOVE_SPEED
-      @pos += @look_dir * distance
+      @pos += @look_dir * distance unless @grid.wall_at?((@pos + @look_dir).floor)
     end
 
     def move_backward(frame_time)
       distance = frame_time * MOVE_SPEED
-      @pos -= @look_dir * distance
+      @pos -= @look_dir * distance unless @grid.wall_at?((@pos - @look_dir).floor)
     end
   end
 end

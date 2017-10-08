@@ -76,6 +76,10 @@ module Crystal::Wolf3d
       Math.sqrt((other_vector2D.x - x) ** 2 + (other_vector2D.y - y) ** 2)
     end
 
+    def floor
+      Vector2D.new(@x.floor, @y.floor)
+    end
+
     def to_s(io)
       io << "Vector2D(#{@x}, #{@y})"
     end

@@ -11,10 +11,10 @@ module Crystal::Wolf3d
       at_exit { SDL.quit }
       window = SDL::Window.new("Wolf 3D", SCREEN_WIDTH, SCREEN_HEIGHT)
       renderer = SDL::Renderer.new(window)
+
       grid = Grid.new
       raycaster = Raycaster.new(grid)
-
-      player = Player.new(Vector2D.new(2.5, 2.5), Vector2D.new(1.0, 0.5), PLAYER_FIELD_OF_VIEW)
+      player = Player.new(Vector2D.new(2.5, 2.5), grid, Vector2D.new(1.0, 0.5), PLAYER_FIELD_OF_VIEW)
 
       curr_time = Time.now.epoch_ms
 
