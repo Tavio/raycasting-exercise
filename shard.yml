@@ -1,0 +1,14 @@
+name: crystal-wolf3d
+version: 0.1.0
+
+dependencies:
+  sdl:
+    github: ysbaddaden/sdl.cr
+    branch: master
+
+authors:
+  - Otavio Nascimento <otanasc@gmail.com>
+
+crystal: 0.23.1
+
+license: MIT
